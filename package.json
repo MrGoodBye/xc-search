@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "webpack --config ./scripts/config/webpack.common.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -22,6 +23,8 @@
   },
   "homepage": "https://github.com/MrGoodBye/xc-search#readme",
   "devDependencies": {
-    "prettier": "^2.1.1"
+    "prettier": "^2.1.1",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12"
   }
 }
