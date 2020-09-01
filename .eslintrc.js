@@ -1,7 +1,8 @@
 module.exports = {
   env: {
     browser: true,
-    es2021: true,
+    es2020: true,
+    node: true,
   },
   extends: [
     'airbnb',
@@ -16,7 +17,7 @@ module.exports = {
     ecmaFeatures: {
       jsx: true,
     },
-    ecmaVersion: 12,
+    ecmaVersion: 11,
     sourceType: 'module',
   },
   settings: {
@@ -24,6 +25,7 @@ module.exports = {
       node: {
         extensions: ['.tsx', '.ts', '.js', '.json'],
       },
+      typescript: {},
     },
   },
   plugins: ['react', '@typescript-eslint'],
@@ -38,5 +40,9 @@ module.exports = {
         js: 'never',
       },
     ],
+    quotes: [2, 'single'],
+    'jsx-quotes': [2, 'prefer-single'],
+    semi: [2, 'never'],
+    'react/jsx-filename-extension': [2, { extensions: ['.tsx', 'ts', '.jsx', 'js'] }],
   },
 }
