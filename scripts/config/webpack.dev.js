@@ -6,6 +6,7 @@ const { SERVER_HOST, SERVER_PORT } = require('../consts')
 
 module.exports = merge(common, {
   mode: 'development',
+  devtool: 'eval-source-map',
   devServer: {
     host: SERVER_HOST,
     port: SERVER_PORT,
