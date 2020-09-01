@@ -25,6 +25,22 @@
     "url": "https://github.com/MrGoodBye/xc-search/issues"
   },
   "homepage": "https://github.com/MrGoodBye/xc-search#readme",
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js}": [
+      "eslint --config .eslintrc.js"
+    ],
+    "*.{css,less,scss}": [
+      "stylelint --config .stylelintrc.js"
+    ],
+    "*.{ts,tsx,js,json,html,yml,css,less,scss,md}": [
+      "prettier --write"
+    ]
+  },
   "devDependencies": {
     "@babel/core": "^7.11.4",
     "@babel/plugin-transform-runtime": "^7.11.0",
@@ -45,6 +61,8 @@
     "eslint-plugin-react-hooks": "^4.1.0",
     "eslint-plugin-unicorn": "^21.0.0",
     "html-webpack-plugin": "^4.4.1",
+    "husky": "^4.2.5",
+    "lint-staged": "^10.2.13",
     "prettier": "^2.1.1",
     "stylelint": "^13.7.0",
     "stylelint-config-prettier": "^8.0.2",
