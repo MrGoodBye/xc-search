@@ -62,6 +62,12 @@ module.exports = {
     filename: `js/[name]${isDev ? '' : '.[hash:8]'}.js`,
     path: path.resolve(PROJECT_PATH, './dist'),
   },
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+      name: true,
+    },
+  },
   resolve: {
     extensions: ['.tsx', '.ts', '.js', '.json'],
     alias: {

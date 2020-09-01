@@ -1,5 +1,7 @@
+/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable unicorn/prevent-abbreviations */
+const webpack = require('webpack')
 const { merge } = require('webpack-merge')
 const common = require('./webpack.common.js')
 const { SERVER_HOST, SERVER_PORT } = require('../consts')
@@ -16,4 +18,5 @@ module.exports = merge(common, {
     open: true,
     hot: true,
   },
+  plugins: [new webpack.HotModuleReplacementPlugin()],
 })
