@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const CopyPlugin = require('copy-webpack-plugin')
 const { PROJECT_PATH, isDev } = require('../consts')
 
 const getCssLoaders = (importLoaders) => [
@@ -29,6 +30,16 @@ const getCssLoaders = (importLoaders) => [
           stage: 3,
         }),
         require('postcss-normalize'),
+        new CopyPlugin({
+          patterns: [
+            {
+              context: path.resolve(PROJECT_PATH, './public'),
+              from: '*',
+              to: path.resolve(PROJECT_PATH, './dist'),
+              toType: 'dir',
+            },
+          ],
+        }),
       ],
       sourceMap: isDev,
     },
