@@ -10,6 +10,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const PostcssFlexbugs = require('postcss-flexbugs-fixes')
 const PostcssPresetEnv = require('postcss-preset-env')
 const PostcssNormalize = require('postcss-normalize')
+const TerserPlugin = require('terser-webpack-plugin')
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const { PROJECT_PATH, isDev } = require('../consts')
 
 const getCssLoaders = (importLoaders) => [
@@ -51,6 +53,17 @@ module.exports = {
     path: path.resolve(PROJECT_PATH, './dist'),
   },
   optimization: {
+    minimize: !isDev,
+    minimizer: [
+      !isDev &&
+        new TerserPlugin({
+          extractComments: false,
+          terserOptions: {
+            compress: { pure_funcs: ['console.log'] },
+          },
+        }),
+      !isDev && new OptimizeCssAssetsPlugin(),
+    ].filter(Boolean),
     splitChunks: {
       chunks: 'all',
       name: true,
