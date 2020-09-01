@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable global-require */
 /* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path')
@@ -5,10 +6,14 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 const HardSourceWebpackPlugin = require('hard-source-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const PostcssFlexbugs = require('postcss-flexbugs-fixes')
+const PostcssPresetEnv = require('postcss-preset-env')
+const PostcssNormalize = require('postcss-normalize')
 const { PROJECT_PATH, isDev } = require('../consts')
 
 const getCssLoaders = (importLoaders) => [
-  'style-loader',
+  isDev ? 'style-loader' : MiniCssExtractPlugin.loader,
   {
     loader: 'css-loader',
     options: {
@@ -22,32 +27,15 @@ const getCssLoaders = (importLoaders) => [
     options: {
       ident: 'postcss',
       plugins: [
-        // 修复一些和 flex 布局相关的 bug
-        require('postcss-flexbugs-fixes'),
-        require('postcss-preset-env')({
+        new PostcssFlexbugs(),
+        new PostcssPresetEnv({
           autoprefixer: {
             grid: true,
             flexbox: 'no-2009',
           },
           stage: 3,
         }),
-        require('postcss-normalize'),
-        new CopyPlugin({
-          patterns: [
-            {
-              context: path.resolve(PROJECT_PATH, './public'),
-              from: '*',
-              to: path.resolve(PROJECT_PATH, './dist'),
-              toType: 'dir',
-            },
-          ],
-        }),
-        new ForkTsCheckerWebpackPlugin({
-          typescript: {
-            configFile: path.resolve(PROJECT_PATH, './tsconfig.json'),
-          },
-        }),
-        new HardSourceWebpackPlugin(),
+        new PostcssNormalize(),
       ],
       sourceMap: isDev,
     },
@@ -148,5 +136,27 @@ module.exports = {
             useShortDoctype: true,
           },
     }),
+    new CopyPlugin({
+      patterns: [
+        {
+          context: path.resolve(PROJECT_PATH, './public'),
+          from: '*',
+          to: path.resolve(PROJECT_PATH, './dist'),
+          toType: 'dir',
+        },
+      ],
+    }),
+    new ForkTsCheckerWebpackPlugin({
+      typescript: {
+        configFile: path.resolve(PROJECT_PATH, './tsconfig.json'),
+      },
+    }),
+    new HardSourceWebpackPlugin(),
+    !isDev &&
+      new MiniCssExtractPlugin({
+        filename: 'css/[name].[contenthash:8].css',
+        chunkFilename: 'css/[name].[contenthash:8].css',
+        ignoreOrder: false,
+      }),
   ],
 }
