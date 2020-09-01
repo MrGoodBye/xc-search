@@ -3,6 +3,7 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 const { PROJECT_PATH, isDev } = require('../consts')
 
 const getCssLoaders = (importLoaders) => [
@@ -39,6 +40,11 @@ const getCssLoaders = (importLoaders) => [
               toType: 'dir',
             },
           ],
+        }),
+        new ForkTsCheckerWebpackPlugin({
+          typescript: {
+            configFile: path.resolve(PROJECT_PATH, './tsconfig.json'),
+          },
         }),
       ],
       sourceMap: isDev,
