@@ -158,5 +158,5 @@ module.exports = {
         chunkFilename: 'css/[name].[contenthash:8].css',
         ignoreOrder: false,
       }),
-  ],
+  ].filter(Boolean),
 }
