@@ -1,5 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { ApolloClient, InMemoryCache, createHttpLink, ApolloProvider } from '@apollo/client'
+import { setContext } from '@apollo/client/link/context'
 import App from './app'
 import 'antd/dist/antd.css' // TODO: use seperate style files in the end
 
@@ -7,4 +9,29 @@ if (module && module.hot) {
   module.hot.accept()
 }
 
-ReactDOM.render(<App />, document.querySelector('#root'))
+const httpLink = createHttpLink({
+  uri: 'https://api.github.com/graphql',
+})
+
+const authLink = setContext((_, { headers }) => {
+  const token = process.env.GITHUB_PERSONAL_ACCESS_TOKEN
+
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : '',
+    },
+  }
+})
+
+const client = new ApolloClient({
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache(),
+})
+
+ReactDOM.render(
+  <ApolloProvider client={client}>
+    <App />
+  </ApolloProvider>,
+  document.querySelector('#root'),
+)

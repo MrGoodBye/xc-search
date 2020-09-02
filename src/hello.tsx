@@ -1,8 +1,6 @@
 import React from 'react'
 import { gql, useQuery } from '@apollo/client'
 
-import SearchBox from 'Components/search-box'
-
 const HELLO_QUERY = gql`
   query {
     search(type: REPOSITORY, query: "apollo", first: 10) {
@@ -21,11 +19,7 @@ const HELLO_QUERY = gql`
 
 function Hello(): JSX.Element {
   const { loading, error, data } = useQuery(HELLO_QUERY)
-  return (
-    <div>
-      <SearchBox />
-    </div>
-  )
+  return <div />
 }
 
 export default Hello
