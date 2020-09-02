@@ -1,10 +1,13 @@
 import React from 'react'
-
 import { Select } from 'antd'
+import { useQuery } from '@apollo/client'
+
+import { searchBykeyword } from '../utils/queries'
 
 const { Option } = Select
 
 const SearchBox = (): JSX.Element => {
+  const { loading, error, data } = useQuery(searchBykeyword('aaa'))
   return (
     <Select
       showSearch
@@ -17,8 +20,8 @@ const SearchBox = (): JSX.Element => {
       // onSearch={onSearch}
       filterOption={(input, option) => option?.children.toLowerCase().includes(input.toLowerCase())}
     >
-      <Option value='jack'>Jack</Option>
-      <Option value='lucy'>Lucy</Option>
+      <Option value='jack'>Jack1</Option>
+      <Option value='lucy'>Lucy2</Option>
       <Option value='tom'>Tom</Option>
     </Select>
   )
