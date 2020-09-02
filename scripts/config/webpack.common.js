@@ -2,6 +2,7 @@
 /* eslint-disable global-require */
 /* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path')
+const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
@@ -12,6 +13,9 @@ const PostcssPresetEnv = require('postcss-preset-env')
 const PostcssNormalize = require('postcss-normalize')
 const TerserPlugin = require('terser-webpack-plugin')
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+const dotenv = require('dotenv')
+
+dotenv.config()
 const { PROJECT_PATH, isDev } = require('../consts')
 
 const getCssLoaders = (importLoaders) => [
@@ -129,6 +133,12 @@ module.exports = {
     ],
   },
   plugins: [
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'production'),
+        GITHUB_PERSONAL_ACCESS_TOKEN: JSON.stringify(process.env.GITHUB_PERSONAL_ACCESS_TOKEN),
+      },
+    }),
     new HtmlWebpackPlugin({
       template: path.resolve(PROJECT_PATH, './public/index.html'),
       filename: 'index.html',
