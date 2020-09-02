@@ -6,7 +6,7 @@ const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
-const HardSourceWebpackPlugin = require('hard-source-webpack-plugin')
+// const HardSourceWebpackPlugin = require('hard-source-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const PostcssFlexbugs = require('postcss-flexbugs-fixes')
 const PostcssPresetEnv = require('postcss-preset-env')
@@ -174,7 +174,7 @@ module.exports = {
         configFile: path.resolve(PROJECT_PATH, './tsconfig.json'),
       },
     }),
-    new HardSourceWebpackPlugin(),
+    // new HardSourceWebpackPlugin(),
     !isDev &&
       new MiniCssExtractPlugin({
         filename: 'css/[name].[contenthash:8].css',
